@@ -3,6 +3,8 @@ package com.example.clickergame;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private SharedPreferences sharedpreferences;
     private SharedPreferences.Editor editor;
+    private LottieAnimationView check;
+
 
 
 
@@ -51,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         sharedpreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
+        check = findViewById(R.id.check);
 
     }
 
@@ -80,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
            if(task.isSuccessful()){
+               login.setVisibility(View.INVISIBLE);
                Log.d("Inside LoginUser","Success");
                editor.putString("em",encode(email));
                editor.commit();
@@ -88,9 +95,19 @@ public class LoginActivity extends AppCompatActivity {
                Intent i = new Intent(LoginActivity.this,MainActivity.class);
 
                i.putExtra("email",encode(email));
-               startActivity(i);
-               finish();
-               Toast.makeText(getBaseContext(),"Successfully Logged In!", Toast.LENGTH_SHORT).show();
+               check.setVisibility(View.VISIBLE);
+
+               check.playAnimation();
+               check.addAnimatorListener(new AnimatorListenerAdapter() {
+                   @Override
+                   public void onAnimationEnd(Animator animation) {
+                       super.onAnimationEnd(animation);
+                       startActivity(i);
+                       finish();
+                       Toast.makeText(getBaseContext(),"Successfully Logged In!", Toast.LENGTH_SHORT).show();
+                   }
+               });
+
            }
            else if(!task.isSuccessful()){
                Toast.makeText(getBaseContext(),"Failed!", Toast.LENGTH_SHORT).show();

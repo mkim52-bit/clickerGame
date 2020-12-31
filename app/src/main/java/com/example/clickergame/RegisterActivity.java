@@ -3,6 +3,8 @@ package com.example.clickergame;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText email,password,username;
     private TextView alreadyUser;
     private Button reg;
+    private LottieAnimationView checker;
     private FirebaseDatabase db;
     private DatabaseReference myRef;
     private FirebaseUser user;//prob dont need
@@ -49,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         myRef = db.getReference();
         sharedpreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
+        checker = findViewById(R.id.checker);
 
 
     }
@@ -90,6 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
             if(task.isSuccessful()){
+                reg.setVisibility(View.INVISIBLE);
                 editor.putString("em",encode(email));
                 editor.commit();
                 myRef.child("users").child(encode(email));
@@ -100,12 +106,21 @@ public class RegisterActivity extends AppCompatActivity {
                 myRef.child("users").child(encode(email)).child("item3").setValue(0);
 
 
-                Toast.makeText(getBaseContext(),"Register Complete!", Toast.LENGTH_SHORT).show();
+
                 user = auth.getCurrentUser();
                 Intent i = new Intent(RegisterActivity.this,MainActivity.class);
                 i.putExtra("email",encode(email));
-                startActivity(i);
-                finish();
+                checker.setVisibility(View.VISIBLE);
+                checker.playAnimation();
+                checker.addAnimatorListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        startActivity(i);
+                        finish();
+                        Toast.makeText(getBaseContext(),"Register Complete!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Log.d("Inside registerUser","Success");
             }
             else{
