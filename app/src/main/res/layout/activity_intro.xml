@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IntroActivity">
+    tools:context=".IntroActivity"
+        android:background="#DBBDE0"
+    >
+
 
     <Button
         android:id="@+id/toLogin"
@@ -38,6 +41,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toLogin" />
 
+
+
     <TextView
         android:id="@+id/header"
         android:layout_width="wrap_content"
@@ -46,6 +51,7 @@
         android:layout_marginStart="180dp"
         android:layout_marginTop="75dp"
         android:text="Clicker"
+        android:textColor="@color/black"
         android:textSize="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

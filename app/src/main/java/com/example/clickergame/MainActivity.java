@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,14 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity  {
-    private TextView score,item1,item2,item3;
+    private TextView score;
     private boolean stopHandler = false;
     private boolean skip= false;
     private int in;
     private Handler handler;
     private Runnable runnable;
     private String username,ID;
-
+    private LottieAnimationView coin, mine,truck,rocket;
      private FirebaseAuth auth;
      private FirebaseUser user;
     private FirebaseDatabase db;
@@ -61,15 +62,17 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         score = findViewById(R.id.Score);
-        item1 = findViewById(R.id.item1);
-        item2 = findViewById(R.id.item2);
-        item3 = findViewById(R.id.item3);
+
         sharedpreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
         username = getIntent().getStringExtra("email");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         db = FirebaseDatabase.getInstance();
+        coin = findViewById(R.id.coin);
+        mine = findViewById(R.id.item1);
+        truck = findViewById(R.id.item2);
+        rocket = findViewById(R.id.item3);
         myRef = FirebaseDatabase.getInstance().getReference("users").child(username);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,6 +116,18 @@ public class MainActivity extends AppCompatActivity  {
                     scoreCount = String.valueOf(count);
                     score.setText("Score: " + scoreCount);
                     sec++;
+                    if(multiplier1!=0){
+                        mine.setSpeed(2);
+                        mine.playAnimation();;
+                    }
+                    if(multiplier2!=0){
+                        truck.setSpeed(1.5f);
+                        truck.playAnimation();
+                    }
+                    if(multiplier3!=0){
+                        //rocket.setSpeed(1.5f);
+                        rocket.playAnimation();
+                    }
                     if(sec%5 == 0){
                         FirebaseDatabase.getInstance().getReference().child("users").child(username).child("count").setValue(count);
                         FirebaseDatabase.getInstance().getReference().child("users").child(username).child("item1").setValue(multiplier1);
@@ -165,6 +180,9 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void onClick(View v){
+        coin.setMinAndMaxProgress(0.1f, 0.9f);
+        coin.setSpeed(2.5f);
+        coin.playAnimation();
 
 
         count++;
@@ -178,6 +196,7 @@ public class MainActivity extends AppCompatActivity  {
 //items must subtract cookies and price becomes exponential
 //items must continue after restarting
     public void itemOne(View V) {//auto increment by 1
+
             count = count - 5;//experimental
         scoreCount = String.valueOf(count);
         score.setText("Score: " + scoreCount);
@@ -186,7 +205,7 @@ public class MainActivity extends AppCompatActivity  {
             count = 0;
         }
             multiplier1++;//goes to 1
-            item1.setText("Item1: " + multiplier1);
+           // item1.setText("Item1: " + multiplier1);
 
 
     }
@@ -200,7 +219,7 @@ public class MainActivity extends AppCompatActivity  {
             count = 0;
         }
         multiplier2+= 5;//goes to 1
-        item2.setText("Item1: " + multiplier2);
+
 
 
     }
@@ -213,7 +232,7 @@ public class MainActivity extends AppCompatActivity  {
             count = 0;
         }
         multiplier3+=10;//goes to 1
-        item3.setText("Item3: " + multiplier3);
+
 
 
     }
