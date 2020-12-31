@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity  {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    count = count + (1 * multiplier1) + (5*multiplier2) + (3*multiplier3);//fine for 0 because count will never be 0 when clicked
+                    count = count + (1 * multiplier1) + (1*multiplier2) + (1*multiplier3);//fine for 0 because count will never be 0 when clicked
                     scoreCount = String.valueOf(count);
                     score.setText("Score: " + scoreCount);
                     sec++;
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity  {
         editor.commit();
         stopHandler = true;
         auth.signOut();
-        Intent intent = new Intent(MainActivity.this,IntroActivity.class);
+        Intent intent = new Intent(MainActivity.this,startActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
