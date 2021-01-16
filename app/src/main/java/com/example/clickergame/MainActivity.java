@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        Toast.makeText(getBaseContext(),"Welcome " + ID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(),"Welcome " + ID, Toast.LENGTH_SHORT).show();
 
 
 
