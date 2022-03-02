@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),"Too Short!", Toast.LENGTH_SHORT).show();
 
                 }
-                else if(!etxt.contains("@") || !etxt.contains(".com")){
+                else if(!etxt.contains("@") ){
                     Log.d("Inside onClick","no @");
                     Toast.makeText(getBaseContext(),"Proper Email!", Toast.LENGTH_SHORT).show();
 

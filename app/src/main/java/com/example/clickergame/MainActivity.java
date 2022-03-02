@@ -198,12 +198,13 @@ public class MainActivity extends AppCompatActivity  {
     public void itemOne(View V) {//auto increment by 1
 
             count = count - 5;//experimental
+            if(count < 0){
+            count = 0;
+        }
         scoreCount = String.valueOf(count);
         score.setText("Score: " + scoreCount);
         //toast message of cost
-        if(count < 0){
-            count = 0;
-        }
+        
             multiplier1++;//goes to 1
            // item1.setText("Item1: " + multiplier1);
 
@@ -212,12 +213,13 @@ public class MainActivity extends AppCompatActivity  {
 
     public void itemTwo(View V) {//auto increment by 5
         count = count - 10;//experimental
-        scoreCount = String.valueOf(count);
-        score.setText("Score: " + scoreCount);
-        //toast message of cost
         if(count < 0){
             count = 0;
         }
+        scoreCount = String.valueOf(count);
+        score.setText("Score: " + scoreCount);
+        //toast message of cost
+        
         multiplier2+= 5;//goes to 1
 
 
@@ -225,12 +227,13 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void itemThree(View V) {
         count = count - 50;//experimental
-        scoreCount = String.valueOf(count);
-        score.setText("Score: " + scoreCount);
-        //toast message of cost
         if(count < 0){
             count = 0;
         }
+        scoreCount = String.valueOf(count);
+        score.setText("Score: " + scoreCount);
+        //toast message of cost
+        
         multiplier3+=10;//goes to 1
 
 
